@@ -1,16 +1,10 @@
-import tkinter.ttk as ttk
-from gtts import gTTS
-from gtts import lang
-from tkinter import Tk
-from tkinter import Label
-from tkinter import StringVar
-from tkinter import Entry
-from tkinter import Button
-
+from gtts import gTTS,lang
+from tkinter import Tk, Label, StringVar, Entry, Button, scrolledtext
+from tkinter.ttk import Combobox
 
 
 def confirm():
-    textToSpeeh=gTTS(mainGetText.get(), lang=supLangDict[comboLang.get()])
+    textToSpeeh=gTTS(scrolledTextMain.get("1.0", "end-1c"), lang=supLangDict[comboLang.get()])#scrolledtext取值:https://www.delftstack.com/zh-tw/howto/python-tkinter/how-to-get-the-input-from-tkinter-text-box/
 
     fileName=f"{filenameGetText.get()}.mp3"
 
@@ -28,13 +22,13 @@ supLangList=list(supLangDict.keys())
 
 #----------------------------window----------------------
 window = Tk()
-window.geometry('370x200')
+window.geometry('390x300')
 window.title("語音mp3產生器")
 window.resizable(False, False)
 
 #-----lable---------
 lableMain=Label(window,text="要轉換的文字:")
-lableMain.grid(row=0,column=0, ipadx=10, pady=10 ,padx=20)#ipad:內部邊界   pad:外邊界
+lableMain.grid(row=0,column=0, ipadx=10, pady=60 ,padx=20)#ipad:內部邊界   pad:外邊界
 
 lableFilename=Label(window,text="檔名:")
 lableFilename.grid(row=1,column=0, ipadx=10, pady=10)
@@ -48,20 +42,20 @@ lableLang.grid(row=2,column=0, ipadx=10, pady=10)
 
 
 #-----combobox---------
-comboLang = ttk.Combobox(window,values=supLangList,state="readonly")
+comboLang = Combobox(window,values=supLangList,state="readonly")
 comboLang.grid(row=2,column=1, ipadx=10, pady=10)
 comboLang.current(len(supLangList)-2)#combobox從0開始算。選擇第{61-2}項
 
 
+#-----scrolledtext-----
+scrolledTextMain = scrolledtext.ScrolledText(window ,width=23, height=8)
+scrolledTextMain.grid(row=0, column=1)
+#----------------------
+
 # tkinter中的文本輸入框說明 https://shengyu7697.github.io/python-tkinter-entry/
 #-------entry-----------
-mainGetText = StringVar()#建立tk文字變數物件
-entryMain = Entry(window, textvariable=mainGetText,width=25)#建立文字輸入框，命名為entryMain，將其中輸入的字指向mainGetText
-entryMain.grid(row=0, column=1)
-
-
-filenameGetText = StringVar()
-entryFilename = Entry(window, textvariable=filenameGetText,width=25)
+filenameGetText = StringVar()#建立tk文字變數物件
+entryFilename = Entry(window, textvariable=filenameGetText,width=25)#建立文字輸入框，命名為entryMain，將其中輸入的字指向filenameGetText
 entryFilename.grid(row=1, column=1)
 #------------------------
 
